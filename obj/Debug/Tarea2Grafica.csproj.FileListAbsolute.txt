@@ -1,0 +1,9 @@
+d:\ginno\documents\visual studio 2017\Projects\Tarea1Grafica\Tarea1Grafica\bin\Debug\Tarea1Grafica.exe.config
+d:\ginno\documents\visual studio 2017\Projects\Tarea1Grafica\Tarea1Grafica\bin\Debug\Tarea1Grafica.exe
+d:\ginno\documents\visual studio 2017\Projects\Tarea1Grafica\Tarea1Grafica\bin\Debug\Tarea1Grafica.pdb
+d:\ginno\documents\visual studio 2017\Projects\Tarea1Grafica\Tarea1Grafica\bin\Debug\OpenTK.dll
+d:\ginno\documents\visual studio 2017\Projects\Tarea1Grafica\Tarea1Grafica\bin\Debug\OpenTK.pdb
+d:\ginno\documents\visual studio 2017\Projects\Tarea1Grafica\Tarea1Grafica\bin\Debug\OpenTK.xml
+d:\ginno\documents\visual studio 2017\Projects\Tarea1Grafica\Tarea1Grafica\obj\Debug\Tarea2Grafica.csprojResolveAssemblyReference.cache
+d:\ginno\documents\visual studio 2017\Projects\Tarea1Grafica\Tarea1Grafica\obj\Debug\Tarea1Grafica.exe
+d:\ginno\documents\visual studio 2017\Projects\Tarea1Grafica\Tarea1Grafica\obj\Debug\Tarea1Grafica.pdb
