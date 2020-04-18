@@ -15,11 +15,12 @@ namespace Tarea1Grafica
     {
         //int bufferDeVertices;
         //int bufferDeElementosIndices;
-
-        int arregloDeVertices;
+        //int arregloDeVertices;
 
         VerticesBuffer bufferDeVertices;
         IndicesBuffer bufferDeIndices;
+
+        VerticesArreglo arregloDeVertices;
 
         static float[] vertices =
         {
@@ -184,8 +185,9 @@ namespace Tarea1Grafica
             textura.Use();
 
             //Creamos el VertexArrayObject (VAO)
-            arregloDeVertices = GL.GenVertexArray();
-            GL.BindVertexArray(arregloDeVertices);
+            arregloDeVertices = new VerticesArreglo();
+            //GL.BindVertexArray(arregloDeVertices);
+            arregloDeVertices.enlazar();
 
             //Enlazamos de nuevo los buffers
             //GL.BindBuffer(BufferTarget.ArrayBuffer, bufferDeVertices.);
@@ -194,13 +196,16 @@ namespace Tarea1Grafica
             //GL.BindBuffer(BufferTarget.ElementArrayBuffer, bufferDeElementosIndices);
             bufferDeIndices.enlazar();
 
-            var locacionVertice = shader.GetAttribLocation("aPosition");
+            //Esta parte ya no es necesaria, la reemplazamos al hacer añadir el buffer con el array
+            /*var locacionVertice = shader.GetAttribLocation("aPosition");
             GL.EnableVertexAttribArray(locacionVertice);
             GL.VertexAttribPointer(locacionVertice, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
 
             int locacionTexCoord = shader.GetAttribLocation("aTexCoord");
             GL.EnableVertexAttribArray(locacionTexCoord);
             GL.VertexAttribPointer(locacionTexCoord, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
+            */
+            arregloDeVertices.añadirBuffer(bufferDeVertices, shader);
 
             /*vista = Matrix4.CreateTranslation(0.0f, 0.0f, -1.5f);
             proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45), Width / (float)Height, 0.1f, 100.0f);
@@ -217,11 +222,12 @@ namespace Tarea1Grafica
             tiempo += 4.0 * e.Time;
 
             GL.Clear(ClearBufferMask.ColorBufferBit|ClearBufferMask.DepthBufferBit);
-
+            
             textura.Use();
             shader.use();
 
-            GL.BindVertexArray(arregloDeVertices);
+            //GL.BindVertexArray(arregloDeVertices);
+            arregloDeVertices.enlazar();
 
             /*var transformacion = Matrix4.Identity;
             transformacion *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(20f));
@@ -229,8 +235,8 @@ namespace Tarea1Grafica
             shader.SetMatrix4("transform", transformacion);*/
 
             //Establecemos las matrices modelo, vista, proyeccion
-            var modelo = Matrix4.Identity; //* Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(tiempo));
-            //modelo *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(30f));
+            var modelo = Matrix4.Identity * Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(tiempo));
+            modelo *= Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(tiempo));
             shader.SetMatrix4("model", modelo);
             shader.SetMatrix4("view", camara.getMatrizVista());
             shader.SetMatrix4("projection", camara.getMatrizProyeccion());
@@ -258,17 +264,20 @@ namespace Tarea1Grafica
             //GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
             bufferDeVertices.desenlazar();
             bufferDeIndices.desenlazar();
-                                    
-            GL.BindVertexArray(0);
+            //Tambien el arreglo
+            //GL.BindVertexArray(0);
+            arregloDeVertices.desenlazar();                                    
+            
             GL.UseProgram(0);
 
             //GL.DeleteBuffer(bufferDeVertices);
             //GL.DeleteBuffer(bufferDeElementosIndices);
+            //GL.DeleteVertexArray(arregloDeVertices);
+
             bufferDeVertices.eliminarBuffer();
             bufferDeIndices.eliminarBuffer();
+            arregloDeVertices.eliminarArreglo();       
             
-            GL.DeleteVertexArray(arregloDeVertices);
-
             shader.disponer();
             GL.DeleteTexture(textura.manejo);
 
