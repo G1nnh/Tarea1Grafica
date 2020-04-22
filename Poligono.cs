@@ -76,6 +76,8 @@ namespace Tarea1Grafica
         private Vector2 ultimaPosicion;
 
         private double tiempo;
+
+        Render render;
         
         public Poligono (int ancho, int alto, string titulo) : base (ancho, alto, GraphicsMode.Default, titulo)
         {
@@ -162,6 +164,8 @@ namespace Tarea1Grafica
 
         protected override void OnLoad(EventArgs e)
         {
+            render = new Render();
+
             GL.ClearColor(0.82f, 1.0f, 1.0f, 1.0f);
 
             GL.Enable(EnableCap.DepthTest);
@@ -221,13 +225,14 @@ namespace Tarea1Grafica
         {
             tiempo += 4.0 * e.Time;
 
-            GL.Clear(ClearBufferMask.ColorBufferBit|ClearBufferMask.DepthBufferBit);
+            //GL.Clear(ClearBufferMask.ColorBufferBit|ClearBufferMask.DepthBufferBit);
+            render.clear();
             
             textura.Use();
-            shader.use();
+            //shader.use();
 
             //GL.BindVertexArray(arregloDeVertices);
-            arregloDeVertices.enlazar();
+            //arregloDeVertices.enlazar();
 
             /*var transformacion = Matrix4.Identity;
             transformacion *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(20f));
@@ -235,13 +240,14 @@ namespace Tarea1Grafica
             shader.SetMatrix4("transform", transformacion);*/
 
             //Establecemos las matrices modelo, vista, proyeccion
-            var modelo = Matrix4.Identity * Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(tiempo));
-            modelo *= Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(tiempo));
+            var modelo = Matrix4.Identity; //* Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(tiempo));
+            //modelo *= Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(tiempo));
             shader.SetMatrix4("model", modelo);
             shader.SetMatrix4("view", camara.getMatrizVista());
             shader.SetMatrix4("projection", camara.getMatrizProyeccion());
 
-            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+            //GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+            render.draw(arregloDeVertices, bufferDeIndices, shader);
             
             Context.SwapBuffers();
 
