@@ -78,6 +78,8 @@ namespace Tarea1Grafica
         private double tiempo;
 
         Render render;
+
+        public List<Forma> objetos = new List<Forma>(); 
         
         public Poligono (int ancho, int alto, string titulo) : base (ancho, alto, GraphicsMode.Default, titulo)
         {
@@ -166,6 +168,8 @@ namespace Tarea1Grafica
         {
             render = new Render();
 
+            objetos.Add(new Piramide());
+
             GL.ClearColor(0.82f, 1.0f, 1.0f, 1.0f);
 
             GL.Enable(EnableCap.DepthTest);
@@ -211,6 +215,8 @@ namespace Tarea1Grafica
             */
             arregloDeVertices.añadirBuffer(bufferDeVertices, shader);
 
+
+
             /*vista = Matrix4.CreateTranslation(0.0f, 0.0f, -1.5f);
             proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45), Width / (float)Height, 0.1f, 100.0f);
             */
@@ -248,7 +254,27 @@ namespace Tarea1Grafica
 
             //GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
             render.draw(arregloDeVertices, bufferDeIndices, shader);
+
+            foreach (Forma forma in objetos)
+            {
+                forma.textura.Use();
+                var modelo3 = forma.modelo * Matrix4.CreateTranslation(new Vector3(2f, 0f, 0f));
+                forma.shader.SetMatrix4("model", modelo3);
+                forma.shader.SetMatrix4("view", camara.getMatrizVista());
+                forma.shader.SetMatrix4("projection", camara.getMatrizProyeccion());
+                render.draw(forma.arregloDeVertices, forma.bufferDeIndices, forma.shader);
+            }
+
+            textura.Use();
+            var modelo2 = Matrix4.Identity;
+            modelo2 *= Matrix4.CreateTranslation(new Vector3(3f, 0f, 0f));
+            modelo2 *= Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(tiempo));
+            //modelo2 *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(tiempo));
+            shader.SetMatrix4("model", modelo2);
+            render.draw(arregloDeVertices, bufferDeIndices, shader);          
+
             
+
             Context.SwapBuffers();
 
             base.OnRenderFrame(e);
@@ -286,6 +312,24 @@ namespace Tarea1Grafica
             
             shader.disponer();
             GL.DeleteTexture(textura.manejo);
+
+            foreach (Forma forma in objetos)
+            {
+                forma.bufferDeVertices.desenlazar();
+                forma.bufferDeIndices.desenlazar();
+                //Tambien el arreglo
+                //GL.BindVertexArray(0);
+                forma.arregloDeVertices.desenlazar();
+
+                GL.UseProgram(0);
+
+                forma.bufferDeVertices.eliminarBuffer();
+                forma.bufferDeIndices.eliminarBuffer();
+                forma.arregloDeVertices.eliminarArreglo();
+
+                forma.shader.disponer();
+                GL.DeleteTexture(forma.textura.manejo);
+            }
 
             base.OnUnload(e);
         }

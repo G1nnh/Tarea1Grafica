@@ -114,10 +114,10 @@ namespace Tarea1Grafica
             GL.Uniform1(locacionesUnifomres[nombre],dato);
         }
 
-        public void SetMatrix4(string nombre, Matrix4 dato)
+        public void SetMatrix4(string nombre, Matrix4 matriz)
         {
             GL.UseProgram(manejo);
-            GL.UniformMatrix4(locacionesUnifomres[nombre], true, ref dato);
+            GL.UniformMatrix4(locacionesUnifomres[nombre], true, ref matriz);
         }
 
         public void SetVector3(string nombre, Vector3 dato)
