@@ -170,6 +170,8 @@ namespace Tarea1Grafica
 
             objetos.Add(new Piramide());
 
+            objetos.Add(new Terreno());
+
             GL.ClearColor(0.82f, 1.0f, 1.0f, 1.0f);
 
             GL.Enable(EnableCap.DepthTest);
@@ -258,7 +260,8 @@ namespace Tarea1Grafica
             foreach (Forma forma in objetos)
             {
                 forma.textura.Use();
-                var modelo3 = forma.modelo * Matrix4.CreateTranslation(new Vector3(2f, 0f, 0f));
+                var modelo3 = forma.modelo; //* Matrix4.CreateTranslation(new Vector3(2f, 0f, 0f));
+                
                 forma.shader.SetMatrix4("model", modelo3);
                 forma.shader.SetMatrix4("view", camara.getMatrizVista());
                 forma.shader.SetMatrix4("projection", camara.getMatrizProyeccion());

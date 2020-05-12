@@ -29,13 +29,15 @@ namespace Tarea1Grafica
             bufferDeIndices.enlazar();
 
             arregloDeVertices.añadirBuffer(bufferDeVertices, shader);
+
+            CalcularMatrizModelo();
         }
 
         public override void CalcularMatrizModelo()
         {
             modelo = Matrix4.CreateScale(escalacion) * Matrix4.CreateRotationX(rotacion.X) * 
                 Matrix4.CreateRotationY(rotacion.Y) * Matrix4.CreateRotationZ(rotacion.Z) * 
-                Matrix4.CreateTranslation(posicion);
+                Matrix4.CreateTranslation(new Vector3(2f, -0.5f, 0f));
         }
 
         public override uint[] GetIndices()
