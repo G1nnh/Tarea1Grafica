@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Tarea1Grafica
 {
-    class Program
+    class Programa
     {
         static void Main(string[] args)
         {
-            using (Poligono poligono = new Poligono(800,600,"Aprendiendo OpenTK"))
+            using (Juego juego = new Juego(800,600,"Juego con OpenTK"))
             {
-                poligono.Run(60.0);
+                juego.Run(60.0);
             }
         }
     }

@@ -8,30 +8,33 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
+using Tarea1Grafica.Figuras;
 
 namespace Tarea1Grafica
 {
-    class Poligono : GameWindow
+    class Juego : GameWindow
     {
         //int bufferDeVertices;
         //int bufferDeElementosIndices;
         //int arregloDeVertices;
 
+        /*AHORA SE INSTANCIAN PARA CADA FORMA
         VerticesBuffer bufferDeVertices;
         IndicesBuffer bufferDeIndices;
 
-        VerticesArreglo arregloDeVertices;
+        VerticesArreglo arregloDeVertices;*/
 
+        /*ESTO FUE TRASLADADO A LA CLASE CUBO
         static float[] vertices =
         {
-            /*-0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,     //Triángulo 
-             0.0f,  0.5f, 0.0f*/
-
-             /*0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 
-             0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 
-            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f*/    
+//             -0.5f, -0.5f, 0.0f,
+//              0.5f, -0.5f, 0.0f,     //Triángulo 
+//              0.0f,  0.5f, 0.0f
+// 
+//              0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 
+//              0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 
+//             -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 
+//             -0.5f,  0.5f, 0.0f, 0.0f, 1.0f    
 
             -0.500000f, -0.500000f,  0.500000f, 0.0f, 0.0f, //0
             -0.500000f,  0.500000f,  0.500000f, 0.0f, 1.0f, //1
@@ -42,12 +45,13 @@ namespace Tarea1Grafica
              0.500000f,  0.500000f,  0.500000f, 1.0f, 0.0f, //5
              0.500000f, -0.500000f, -0.500000f, 0.0f, 1.0f, //6
              0.500000f,  0.500000f, -0.500000f, 0.0f, 0.0f  //7
-        };
+        };*/
 
+        /*TAMBIEN FUE TRASLADADO A LA CLASE CUBO
         static uint[] indices =
         {
-            /*0, 1, 3,
-            1, 2, 3*/
+//             0, 1, 3,
+//             1, 2, 3
 
             1, 2, 0,
             3, 6, 2,
@@ -62,10 +66,16 @@ namespace Tarea1Grafica
             6, 4, 0,
             3, 1, 5
                 
-        };
-        Textura textura;
+        };*/
 
-        Shader shader;
+        /*CADA TEXTURA Y CADA SHADER CON SU RESPECTIVO OBJETO
+    Textura textura;
+
+    Shader shader;*/
+
+        Forma piramide;
+        Forma terreno; 
+        Forma cubo;
 
         /*private Matrix4 vista;
         private Matrix4 proyeccion;*/
@@ -81,7 +91,7 @@ namespace Tarea1Grafica
 
         public List<Forma> objetos = new List<Forma>(); 
         
-        public Poligono (int ancho, int alto, string titulo) : base (ancho, alto, GraphicsMode.Default, titulo)
+        public Juego (int ancho, int alto, string titulo) : base (ancho, alto, GraphicsMode.Default, titulo)
         {
         }
 
@@ -168,32 +178,36 @@ namespace Tarea1Grafica
         {
             render = new Render();
 
-            objetos.Add(new Piramide());
-
-            objetos.Add(new Terreno());
+            piramide = new Piramide();
+            terreno = new Terreno();
+            objetos.Add(piramide);
+            objetos.Add(terreno);
 
             GL.ClearColor(0.82f, 1.0f, 1.0f, 1.0f);
 
             GL.Enable(EnableCap.DepthTest);
 
+            cubo = new Cubo();
+
+            // TODO ESTO SE CREA EN LA CLASE CUBO///////////////////////////////////////////////////////////////
             //Creamos el VertexBufferObject (VBO)
             /*bufferDeVertices = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, bufferDeVertices);
             GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);*/
-            bufferDeVertices = new VerticesBuffer(vertices, vertices.Length * sizeof(float));
+            //bufferDeVertices = new VerticesBuffer(vertices, vertices.Length * sizeof(float));
 
             //Creamos el ElementBufferObject (EBO)
             /*bufferDeElementosIndices = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, bufferDeElementosIndices);
             GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);*/
-            bufferDeIndices = new IndicesBuffer(indices, indices.Length);
+            //bufferDeIndices = new IndicesBuffer(indices, indices.Length);
 
-            shader = new Shader("d:/ginno/documents/visual studio 2017/Projects/Tarea1Grafica/Tarea1Grafica/shader/shader.vert", "d:/ginno/documents/visual studio 2017/Projects/Tarea1Grafica/Tarea1Grafica/shader/shader.frag");
+            /*shader = new Shader("d:/ginno/documents/visual studio 2017/Projects/Tarea1Grafica/Tarea1Grafica/shader/shader.vert", "d:/ginno/documents/visual studio 2017/Projects/Tarea1Grafica/Tarea1Grafica/shader/shader.frag");
             shader.use();
 
             textura = new Textura("d:/ginno/Documents/Visual Studio 2017/Projects/Tarea1Grafica/Tarea1Grafica/Recursos/wall.png");
-            textura.Use();
-
+            textura.Use();*/
+            /*
             //Creamos el VertexArrayObject (VAO)
             arregloDeVertices = new VerticesArreglo();
             //GL.BindVertexArray(arregloDeVertices);
@@ -204,7 +218,7 @@ namespace Tarea1Grafica
             bufferDeVertices.enlazar();
             //
             //GL.BindBuffer(BufferTarget.ElementArrayBuffer, bufferDeElementosIndices);
-            bufferDeIndices.enlazar();
+            bufferDeIndices.enlazar();*/
 
             //Esta parte ya no es necesaria, la reemplazamos al hacer añadir el buffer con el array
             /*var locacionVertice = shader.GetAttribLocation("aPosition");
@@ -215,8 +229,8 @@ namespace Tarea1Grafica
             GL.EnableVertexAttribArray(locacionTexCoord);
             GL.VertexAttribPointer(locacionTexCoord, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
             */
-            arregloDeVertices.añadirBuffer(bufferDeVertices, shader);
-
+            //arregloDeVertices.añadirBuffer(bufferDeVertices, shader);
+            
 
 
             /*vista = Matrix4.CreateTranslation(0.0f, 0.0f, -1.5f);
@@ -236,7 +250,7 @@ namespace Tarea1Grafica
             //GL.Clear(ClearBufferMask.ColorBufferBit|ClearBufferMask.DepthBufferBit);
             render.clear();
             
-            textura.Use();
+            cubo.textura.Use();
             //shader.use();
 
             //GL.BindVertexArray(arregloDeVertices);
@@ -250,12 +264,12 @@ namespace Tarea1Grafica
             //Establecemos las matrices modelo, vista, proyeccion
             var modelo = Matrix4.Identity; //* Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(tiempo));
             //modelo *= Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(tiempo));
-            shader.SetMatrix4("model", modelo);
-            shader.SetMatrix4("view", camara.getMatrizVista());
-            shader.SetMatrix4("projection", camara.getMatrizProyeccion());
+            cubo.shader.SetMatrix4("model", modelo);
+            cubo.shader.SetMatrix4("view", camara.getMatrizVista());
+            cubo.shader.SetMatrix4("projection", camara.getMatrizProyeccion());
 
             //GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
-            render.draw(arregloDeVertices, bufferDeIndices, shader);
+            render.draw(cubo.arregloDeVertices, cubo.bufferDeIndices, cubo.shader);
 
             foreach (Forma forma in objetos)
             {
@@ -268,13 +282,13 @@ namespace Tarea1Grafica
                 render.draw(forma.arregloDeVertices, forma.bufferDeIndices, forma.shader);
             }
 
-            textura.Use();
+            cubo.textura.Use();
             var modelo2 = Matrix4.Identity;
             modelo2 *= Matrix4.CreateTranslation(new Vector3(3f, 0f, 0f));
             modelo2 *= Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(tiempo));
             //modelo2 *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(tiempo));
-            shader.SetMatrix4("model", modelo2);
-            render.draw(arregloDeVertices, bufferDeIndices, shader);          
+            cubo.shader.SetMatrix4("model", modelo2);
+            render.draw(cubo.arregloDeVertices, cubo.bufferDeIndices, cubo.shader);          
 
             
 
@@ -297,11 +311,11 @@ namespace Tarea1Grafica
             //Desenlazamos los buffers
             //GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             //GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
-            bufferDeVertices.desenlazar();
-            bufferDeIndices.desenlazar();
+            cubo.bufferDeVertices.desenlazar();
+            cubo.bufferDeIndices.desenlazar();
             //Tambien el arreglo
             //GL.BindVertexArray(0);
-            arregloDeVertices.desenlazar();                                    
+            cubo.arregloDeVertices.desenlazar();                                    
             
             GL.UseProgram(0);
 
@@ -309,12 +323,12 @@ namespace Tarea1Grafica
             //GL.DeleteBuffer(bufferDeElementosIndices);
             //GL.DeleteVertexArray(arregloDeVertices);
 
-            bufferDeVertices.eliminarBuffer();
-            bufferDeIndices.eliminarBuffer();
-            arregloDeVertices.eliminarArreglo();       
+            cubo.bufferDeVertices.eliminarBuffer();
+            cubo.bufferDeIndices.eliminarBuffer();
+            cubo.arregloDeVertices.eliminarArreglo();       
             
-            shader.disponer();
-            GL.DeleteTexture(textura.manejo);
+            cubo.shader.disponer();
+            GL.DeleteTexture(cubo.textura.manejo);
 
             foreach (Forma forma in objetos)
             {
